@@ -1,5 +1,6 @@
 import React from 'react';
-import { Card, Container, Col, Row } from 'react-bootstrap';
+import { Card, Container, Col, Row, Breadcrumb, BreadcrumbItem } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import './Menu.css';
 
 function Menu(props) {
@@ -8,15 +9,31 @@ function Menu(props) {
     return (
         <Container className="menuItem">
             <Row>
+                <Breadcrumb>
+                    <BreadcrumbItem>
+                        <Link to='/home'>Home</Link>
+                    </BreadcrumbItem>
+                    <BreadcrumbItem active>
+                        Menu
+                    </BreadcrumbItem>
+                </Breadcrumb>
+                <Col>
+                    <h3>Menu</h3>
+                    <hr />
+                </Col>
+            </Row>
+            <Row>
                 {
                     menu.map((dish) => {
                         return (
                             <Col xs={12} md={3}>
-                                <Card  key={dish.id} onClick={() => props.onClick(dish.id)}>
-                                    <Card.Img variant="top" src={dish.image} alt={dish.name} />
-                                    <Card.Body>
-                                        <Card.Title>{dish.name}</Card.Title>
-                                    </Card.Body>
+                                <Card key={dish.id}>
+                                    <Link to={`/menu/${dish.id}`}>
+                                        <Card.Img variant="top" src={dish.image} alt={dish.name} />
+                                        <Card.Body>
+                                            <Card.Title>{dish.name}</Card.Title>
+                                        </Card.Body>
+                                    </Link>
                                 </Card>
                             </Col>
                         )
