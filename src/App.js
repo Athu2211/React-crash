@@ -6,6 +6,7 @@ import Footer from './components/Footer';
 import Home from './components/Home';
 import Contact from './components/Contact';
 import Dish from './components/Dish';
+import About from './components/About';
 import { DISHES } from './data/dishes';
 import { COMMENTS } from './data/comments';
 import { LEADERS } from './data/leaders';
@@ -50,6 +51,7 @@ class App extends Component {
 						<Route path='/home' component={HomePage} />
 						<Route exact path='/contactus' component={Contact} />
 						<Route exact path='/menu' component={() => <Menu dishes={this.state.dishes} />} />
+						<Route exact path='/aboutus' component={() => <About leaders={this.state.leaders} /> } />
 						<Route path='/menu/:dishId' component={DishDetail} />
 						<Redirect to='/home' />
 					</Switch>
