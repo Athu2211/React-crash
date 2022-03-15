@@ -1,14 +1,21 @@
-.App {
-  text-align: center;
+.footer{
+    background-color: lightsalmon;
+    padding: 20px 0px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.jumbotron {
+    padding:20px;
+    margin-bottom: 10px;
+    background:lightsalmon ;
+    color:floralwhite;
+}
+
+address{
+    font-size:80%;
+    margin:0px;
+    color:#0f0f0f;
+}
+
+.navbar-dark {
+    background-color: rgb(83, 40, 36) !important;
 }
