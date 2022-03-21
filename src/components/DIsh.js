@@ -8,20 +8,61 @@ const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !(val) || (val.length <= len);
 const minLength = (len) => (val) => val && (val.length >= len);
 
+function RenderDish({ dish }) {
 
-class Dish extends Component {
+    return (
+        <div className='col-12 col-md-5 m-1'>
+            <Card>
+                <CardImg width="100%" src={dish.image} alt={dish.name} />
+                <CardBody>
+                    <CardTitle> {dish.name}</CardTitle>
+                    <CardText> {dish.description} </CardText>
+                </CardBody>
+            </Card>
+        </div>
+    );
+}
+
+function RenderComments({ comments, addComment, dishId }) {
+    if (comments != null)
+        return (
+            <div className='col-12 col-md-5 m-1'>
+                <h4> Comments </h4>
+                <ul className='list-unstyled'>
+                    {comments.map((comment) => {
+                        return (
+                            <li key={comment.id}>
+                                <p>{comment.comment}</p>
+                                <p>-- {comment.author},
+                                &nbsp;
+                                {new Intl.DateTimeFormat('en-US', {
+                                    year: 'numeric',
+                                    month: 'long',
+                                    day: '2-digit'
+                                }).format(new Date(comment.date))}
+                                </p>
+                            </li>
+                        )
+                    })}
+                </ul>
+                <CommentForm dishId={dishId} addComment={addComment}/>
+            </div>
+        );
+    else
+        return (<div></div>)
+}
+
+
+class CommentForm extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            selectedDishDetail: this.props.dsdetail,
             isModalOpen: false
-        };
-
+        }
         this.toggleModal = this.toggleModal.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this)
     }
-
     toggleModal() {
         this.setState({
             isModalOpen: !this.state.isModalOpen
@@ -29,65 +70,14 @@ class Dish extends Component {
     }
 
     handleSubmit(values) {
-        console.log(JSON.stringify(values));
-        alert(JSON.stringify(values));
+        this.toggleModal();
+        this.props.addComment(this.props.dishId, values.rating, values.author, values.comment);
     }
 
-    renderDish(dish) {
-
-        if (dish != null) {
-            return (
-                <div className='col-12 col-md-5 m-1'>
-                    <Card>
-                        <CardImg width="100%" src={dish.image} alt={dish.name} />
-                        <CardBody>
-                            <CardTitle> {dish.name}</CardTitle>
-                            <CardText> {dish.description} </CardText>
-                        </CardBody>
-                    </Card>
-                </div>
-            );
-        }
-        else {
-            return (
-                <div></div>
-            );
-        }
-    }
-
-    renderComments(comments) {
-        if (comments == null) {
-            return (<div></div>)
-        }
-        const cmnts = comments.map(comment => {
-            return (
-                <li key={comment.id}>
-                    <p>{comment.comment}</p>
-                    <p>-- {comment.author},
-                    &nbsp;
-                    {new Intl.DateTimeFormat('en-US', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: '2-digit'
-                    }).format(new Date(comment.date))}
-                    </p>
-                </li>
-            )
-        })
+    render() {
         return (
-            <div className='col-12 col-md-5 m-1'>
-                <h4> Comments </h4>
-                <ul className='list-unstyled'>
-                    {cmnts}
-                </ul>
+            <div>
                 <Button variant="outline-secondary" onClick={this.toggleModal}><span className="fa fa-pencil fa-lg"></span> Submit Comment</Button>
-            </div>
-        )
-    }
-
-    renderCommentForm(toggleModal) {
-        if (toggleModal) {
-            return (
                 <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
                     <ModalHeader toggle={this.toggleModal}>Submit</ModalHeader>
                     <ModalBody>
@@ -108,12 +98,11 @@ class Dish extends Component {
                                 </Col>
                             </Row>
                             <Row className="form-group  mt-3">
-                                <Label htmlFor="yourName" md={12}>Your Name</Label>
+                                <Label htmlFor="author" md={12}>Your Name</Label>
                                 <Col md={12}>
                                     <Control.text
-                                        model=".yourName"
-                                        id="yourName"
-                                        name="yourName"
+                                        model=".author"
+                                        id="author"
                                         placeholder="Your Name"
                                         className="form-control"
                                         validators={{
@@ -121,7 +110,7 @@ class Dish extends Component {
                                         }} />
                                     <Errors
                                         className="text-danger"
-                                        model=".yourName"
+                                        model=".author"
                                         show="touched"
                                         messages={{
                                             required: 'Required',
@@ -132,12 +121,11 @@ class Dish extends Component {
                                 </Col>
                             </Row>
                             <Row className="form-group mt-3">
-                                <Label htmlFor="message" md={12}>Comment</Label>
+                                <Label htmlFor="comment" md={12}>Comment</Label>
                                 <Col md={12}>
                                     <Control.textarea
-                                        model=".message"
-                                        id="message"
-                                        name="message"
+                                        model=".comment"
+                                        id="comment"
                                         rows="6"
                                         className="form-control" />
                                 </Col>
@@ -150,21 +138,31 @@ class Dish extends Component {
                         </LocalForm>
                     </ModalBody>
                 </Modal>
-            )
-        }
+            </div>
+        );
+    }
+}
+
+class Dish extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            selectedDishDetail: this.props.dsdetail,
+            isModalOpen: false
+        };
     }
 
 
     render() {
         const dish = this.props.dish
+        const comments = this.props.comments
+        // const addComment = this.props.addComment
+        // const dishId = this.props.dish.id
 
         if (dish == null) {
             return (<div></div>);
         }
-
-        const dishItem = this.renderDish(dish);
-        const dishComment = this.renderComments(this.props.comments);
-        const commentForm = this.renderCommentForm(this.toggleModal);
 
         return (
             <Container>
@@ -186,9 +184,10 @@ class Dish extends Component {
                     </Col>
                 </Row>
                 <Row>
-                    {dishItem}
-                    {dishComment}
-                    {commentForm}
+                    <RenderDish dish={dish} />
+                    <RenderComments comments={comments} 
+                        addComment={this.props.addComment}
+                        dishId={this.props.dish.id}/>
                 </Row>
             </Container>
         )
