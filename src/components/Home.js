@@ -37,7 +37,7 @@ function RenderCard({ item, isLoading, errMess }) {
 
 }
 
-function Home({ dish, promotion, leader, dishesLoading, dishesErrMess, promoLoading, promoErrMess }) {
+function Home({ dish, promotion, leader, dishesLoading, dishesErrMess, promoLoading, promoErrMess, leaderLoading, leaderErrMess }) {
     return (
         <div className="container">
             <div className="row align-items-start">
@@ -48,7 +48,7 @@ function Home({ dish, promotion, leader, dishesLoading, dishesErrMess, promoLoad
                     <RenderCard item={promotion} isLoading={promoLoading} errMess={promoErrMess} />
                 </div>
                 <div className="col-12 col-md m-1">
-                    <RenderCard item={leader} />
+                    <RenderCard item={leader} isLoading={leaderLoading} errMess={leaderErrMess} />
                 </div>
             </div>
         </div>

@@ -3,7 +3,7 @@ import { Container, Col, Row, Breadcrumb, BreadcrumbItem, Button } from 'react-b
 import { Card, CardImg, CardText, CardBody, CardTitle, Modal, ModalHeader, ModalBody, Label } from "reactstrap";
 import { Control, LocalForm, Errors } from 'react-redux-form';
 import { Link } from 'react-router-dom';
-import { FadeTransform, Fade, Stagger } from 'react-animation-components';
+import { FadeTransform, Stagger } from 'react-animation-components';
 import { baseUrl } from '../data/baseUrl';
 import Loading from './Loading';
 
