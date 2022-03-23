@@ -3,6 +3,7 @@ import { Container, Col, Row, Breadcrumb, BreadcrumbItem, Button } from 'react-b
 import { Card, CardImg, CardText, CardBody, CardTitle, Modal, ModalHeader, ModalBody, Label } from "reactstrap";
 import { Control, LocalForm, Errors } from 'react-redux-form';
 import { Link } from 'react-router-dom';
+import { baseUrl } from '../data/baseUrl';
 import Loading from './Loading';
 
 const required = (val) => val && val.length;
@@ -14,7 +15,7 @@ function RenderDish({ dish }) {
     return (
         <div className='col-12 col-md-5 m-1'>
             <Card>
-                <CardImg width="100%" src={dish.image} alt={dish.name} />
+                <CardImg width="100%" src={baseUrl + dish.image} alt={dish.name} />
                 <CardBody>
                     <CardTitle> {dish.name}</CardTitle>
                     <CardText> {dish.description} </CardText>
@@ -24,7 +25,7 @@ function RenderDish({ dish }) {
     );
 }
 
-function RenderComments({ comments, addComment, dishId }) {
+function RenderComments({ comments, postComment, dishId }) {
     if (comments != null)
         return (
             <div className='col-12 col-md-5 m-1'>
@@ -46,7 +47,7 @@ function RenderComments({ comments, addComment, dishId }) {
                         )
                     })}
                 </ul>
-                <CommentForm dishId={dishId} addComment={addComment} />
+                <CommentForm dishId={dishId} postComment={postComment} />
             </div>
         );
     else
@@ -72,7 +73,7 @@ class CommentForm extends Component {
 
     handleSubmit(values) {
         this.toggleModal();
-        this.props.addComment(this.props.dishId, values.rating, values.author, values.comment);
+        this.props.postComment(this.props.dishId, values.rating, values.author, values.comment);
     }
 
     render() {
@@ -197,7 +198,7 @@ class Dish extends Component {
                     <Row>
                         <RenderDish dish={this.props.dish} />
                         <RenderComments comments={this.props.comments}
-                            addComment={this.props.addComment}
+                            postComment={this.props.postComment}
                             dishId={this.props.dish.id} />
                     </Row>
                 </Container>

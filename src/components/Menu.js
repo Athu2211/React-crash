@@ -2,6 +2,7 @@ import React from 'react';
 import { Card, Container, Col, Row, Breadcrumb, BreadcrumbItem } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Loading from './Loading';
+import { baseUrl } from '../data/baseUrl';
 import './Menu.css';
 
 function Menu(props) {
@@ -51,7 +52,7 @@ function Menu(props) {
                                 <Col xs={12} md={3}>
                                     <Card key={dish.id}>
                                         <Link to={`/menu/${dish.id}`}>
-                                            <Card.Img variant="top" src={dish.image} alt={dish.name} />
+                                            <Card.Img variant="top" src={baseUrl + dish.image} alt={dish.name} />
                                             <Card.Body>
                                                 <Card.Title>{dish.name}</Card.Title>
                                             </Card.Body>
